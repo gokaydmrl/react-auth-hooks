@@ -11,12 +11,26 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SseImport } from './routes/sse'
+import { Route as SoundImport } from './routes/sound'
 import { Route as LoginImport } from './routes/login'
 import { Route as AuthorizeImport } from './routes/authorize'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const SseRoute = SseImport.update({
+  id: '/sse',
+  path: '/sse',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SoundRoute = SoundImport.update({
+  id: '/sound',
+  path: '/sound',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const LoginRoute = LoginImport.update({
   id: '/login',
@@ -74,6 +88,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
+    '/sound': {
+      id: '/sound'
+      path: '/sound'
+      fullPath: '/sound'
+      preLoaderRoute: typeof SoundImport
+      parentRoute: typeof rootRoute
+    }
+    '/sse': {
+      id: '/sse'
+      path: '/sse'
+      fullPath: '/sse'
+      preLoaderRoute: typeof SseImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -84,6 +112,8 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/authorize': typeof AuthorizeRoute
   '/login': typeof LoginRoute
+  '/sound': typeof SoundRoute
+  '/sse': typeof SseRoute
 }
 
 export interface FileRoutesByTo {
@@ -91,6 +121,8 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/authorize': typeof AuthorizeRoute
   '/login': typeof LoginRoute
+  '/sound': typeof SoundRoute
+  '/sse': typeof SseRoute
 }
 
 export interface FileRoutesById {
@@ -99,14 +131,16 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/authorize': typeof AuthorizeRoute
   '/login': typeof LoginRoute
+  '/sound': typeof SoundRoute
+  '/sse': typeof SseRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/authorize' | '/login'
+  fullPaths: '/' | '/about' | '/authorize' | '/login' | '/sound' | '/sse'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/authorize' | '/login'
-  id: '__root__' | '/' | '/about' | '/authorize' | '/login'
+  to: '/' | '/about' | '/authorize' | '/login' | '/sound' | '/sse'
+  id: '__root__' | '/' | '/about' | '/authorize' | '/login' | '/sound' | '/sse'
   fileRoutesById: FileRoutesById
 }
 
@@ -115,6 +149,8 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthorizeRoute: typeof AuthorizeRoute
   LoginRoute: typeof LoginRoute
+  SoundRoute: typeof SoundRoute
+  SseRoute: typeof SseRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -122,6 +158,8 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthorizeRoute: AuthorizeRoute,
   LoginRoute: LoginRoute,
+  SoundRoute: SoundRoute,
+  SseRoute: SseRoute,
 }
 
 export const routeTree = rootRoute
@@ -137,7 +175,9 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/authorize",
-        "/login"
+        "/login",
+        "/sound",
+        "/sse"
       ]
     },
     "/": {
@@ -151,6 +191,12 @@ export const routeTree = rootRoute
     },
     "/login": {
       "filePath": "login.tsx"
+    },
+    "/sound": {
+      "filePath": "sound.tsx"
+    },
+    "/sse": {
+      "filePath": "sse.tsx"
     }
   }
 }
